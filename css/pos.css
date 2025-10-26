@@ -1,0 +1,116 @@
+/* css/pos.css */
+.pos-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.product-selection {
+    flex: 2;
+}
+
+.receipt-area {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+}
+
+#product-search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.product-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.product-item:hover {
+    box-shadow: 0 0 10px rgba(0, 150, 255, 0.2);
+}
+
+.product-item img {
+    width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+/* Receipt Styling */
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.receipt-table th, .receipt-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.receipt-summary {
+    border-top: 2px solid var(--primary-color);
+    padding-top: 10px;
+    text-align: right;
+    font-size: 1.1em;
+}
+
+.grand-total {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: var(--primary-color);
+}
+
+.receipt-actions button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Print Styles */
+@media print {
+    header, 
+    .product-selection, 
+    .receipt-actions, 
+    .receipt-table button { 
+        display: none !important; 
+    }
+
+    .pos-container {
+        display: block;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        float: none !important;
+    }
+
+    .receipt-area {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        position: static;
+    }
+
+    .receipt-table input {
+        border: none;
+        background: none;
+        width: auto !important;
+        padding: 0;
+        margin: 0;
+    }
+}

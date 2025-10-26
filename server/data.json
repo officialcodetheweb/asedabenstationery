@@ -1,0 +1,17 @@
+// server/data.json
+{
+  "users": [
+    {
+      "username": "admin1",
+      "password": "adminpassword",
+      "role": "admin"
+    },
+    {
+      "username": "worker1",
+      "password": "workerpassword",
+      "role": "worker"
+    }
+  ],
+  "products": [],
+  "receipts": []
+}

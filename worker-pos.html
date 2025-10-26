@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker POS - Receipt Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pos.css">
+</head>
+<body>
+    <header>
+        <h1>Aseda Ben Stationery</h1>
+        <button onclick="logout()">Log Out</button> 
+    </header>
+
+    <div class="pos-container">
+        <div class="product-selection card">
+    <h2>Products & Services</h2>
+    <input type="text" id="product-search" placeholder="Search products or services..." onkeyup="filterProducts()">
+    
+    <p id="total-product-count" style="font-weight: bold; margin-bottom: 10px;"></p>
+    
+    <div id="product-list" class="product-grid">
+        </div>
+</div>
+
+        <div class="receipt-area card">
+            <h2>Current Receipt</h2>
+            <div id="receipt-content">
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receipt-items-body">
+                        </tbody>
+                </table>
+            </div>
+            
+            <div class="receipt-summary">
+                <p>Subtotal: <span id="subtotal-display">$0.00</span></p>
+                <p class="grand-total">Grand Total: <span id="grand-total-display">$0.00</span></p>
+            </div>
+
+            <div class="receipt-actions">
+                <button onclick="processSale()" id="print-receipt-btn">Print & Finalize Receipt</button>
+                <button onclick="exportAsPDF()" class="pdf-btn">Export as PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/worker.js"></script>
+</body>
+</html>

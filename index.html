@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aseda Ben Stationery</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aseda Ben Stationery</h1>
+    </header>
+
+    <div class="container">
+        <div class="login-container card">
+            <h2>System Access</h2>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <p id="login-message" style="color: red;"></p>
+                <button type="submit">Log In</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                Use <strong>admin1</strong>/<strong>adminpassword</strong> for Admin or <strong>worker1</strong>/<strong>workerpassword</strong> for Worker.
+            </p>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+</body>
+</html>

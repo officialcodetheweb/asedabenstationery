@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Inventory & Reports</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <button onclick="logout()">Log Out</button>
+    </header>
+
+    <div class="container">
+        <div class="card" id="inventory-creation-panel">
+            <h2>Create New Product or Service</h2>
+            <form id="product-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                
+                <label for="category">Category:</label>
+                <select id="category" required onchange="toggleQuantityField()">
+                    <option value="product">Product (Pen, Paper, Ink)</option>
+                    <option value="service">Service (Photocopy, Printing, Graphic Design)</option>
+                </select>
+
+               <div id="price-group">
+    <label for="price">Price ($\text{GHS}$):</label>
+    <input type="number" id="price" step="0.01" min="0" required>
+</div>
+
+<div id="variant-group" style="display: none;">
+    <label>Service Price Tiers/Variants:</label>
+    <div id="variant-list">
+        </div>
+    <button type="button" onclick="addVariantInput()" style="background-color: #007bff; margin-top: 10px; padding: 5px 10px;">+ Add Price Tier</button>
+    <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Example: Size A4, Price 10.00 GHS</p>
+</div>
+                <input type="number" id="price" step="0.01" min="0" required>
+                
+                <div id="quantity-group">
+                    <label for="quantity">Quantity (0 for Service):</label>
+                    <input type="number" id="quantity" min="0" value="1">
+                </div>
+                
+                <label for="image">Image (Local Upload):</label>
+                <input type="file" id="image" accept="image/*">
+                
+                <button type="submit" style="margin-top: 15px;">Add to Inventory</button>
+                <p id="form-message" style="color: green;"></p>
+            </form>
+        </div>
+
+        <div class="card" id="product-view-panel">
+            <h2>Current Inventory (Index)</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-list">
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <h2>Receipt Audit Trail & Notifications</h2>
+            <ul id="notification-list">
+                </ul>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
