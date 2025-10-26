@@ -1,23 +1,18 @@
-// server/server.js
-
 const express = require('express');
-// In server/server.js (near the top with other requires)
 const cors = require('cors');
-
-// Below where you define 'app = express();'
-app.use(cors()); 
-// This should allow your GitHub Pages site to talk to Render
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
-const app = express();
-const PORT = 3000;
+// --- Initialization ---
+const app = express(); 
+const PORT = process.env.PORT || 3000; // Uses 3000 locally
 const DATA_FILE = path.join(__dirname, 'data.json');
 
 // --- Middleware ---
-app.use(cors()); // Allows frontend (different origin) to access the server
-app.use(bodyParser.json()); // To parse incoming JSON requests
+// This enables connection from your local frontend file:///...
+app.use(cors()); 
+app.use(bodyParser.json()); 
 
 // --- Data Handler Functions ---
 
@@ -25,14 +20,16 @@ app.use(bodyParser.json()); // To parse incoming JSON requests
 const readData = () => {
     try {
         const data = fs.readFileSync(DATA_FILE, 'utf8');
+        // Handle empty file case
+        if (!data) throw new Error("Data file is empty.");
         return JSON.parse(data);
     } catch (error) {
-        console.error("Error reading data file:", error.message);
-        // Initialize with default structure if file is missing or corrupted
+        // Initialize with default structure if file is missing, empty, or corrupted
+        console.error("Error reading data file. Initializing with default structure:", error.message);
         return { 
             users: [
                 { username: "admin1", password: "adminpassword", role: "admin" },
-                { username: "worker1", password: "workerpassword", role: "worker" }
+                { username: "worker1", "password": "workerpassword", role: "worker" }
             ],
             products: [],
             receipts: []
@@ -47,6 +44,12 @@ const writeData = (data) => {
 
 // --- API Endpoints ---
 
+// TEST ROUTE
+app.get('/api', (req, res) => {
+    res.status(200).json({ message: "Backend is responding successfully!" });
+});
+
+
 // 1. AUTHENTICATION: User Login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
@@ -55,10 +58,8 @@ app.post('/api/login', (req, res) => {
     const user = data.users.find(u => u.username === username && u.password === password);
 
     if (user) {
-        // Successful login
         res.json({ success: true, message: "Login successful.", role: user.role, username: user.username });
     } else {
-        // Failed login
         res.status(401).json({ success: false, message: "Invalid username or password." });
     }
 });
@@ -74,7 +75,6 @@ app.post('/api/products', (req, res) => {
     const newProduct = req.body;
     const data = readData();
 
-    // Simple ID generation for the product
     newProduct.id = Date.now().toString(); 
     data.products.push(newProduct);
     
@@ -100,10 +100,9 @@ app.delete('/api/products/:id', (req, res) => {
 
 // 5. SALES: Process Sale & Deduct Stock (Worker)
 app.post('/api/sales', (req, res) => {
-    const saleData = req.body; // Includes cart and worker details
+    const saleData = req.body; 
     const data = readData();
 
-    // 5a. Deduct Stock from Products
     saleData.items.forEach(cartItem => {
         if (cartItem.category === 'product') {
             const product = data.products.find(p => p.id === (cartItem.baseId || cartItem.id));
@@ -113,7 +112,6 @@ app.post('/api/sales', (req, res) => {
         }
     });
 
-    // 5b. Save Receipt
     saleData.id = 'ABW-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100);
     saleData.timestamp = Date.now();
 
@@ -124,18 +122,8 @@ app.post('/api/sales', (req, res) => {
 });
 
 
-// In server/server.js, look for where you set up routes, and make sure this is there:
-
-app.get('/api', (req, res) => {
-    // Simple test route to confirm the backend is reachable
-    res.status(200).json({ message: "Backend is responding successfully!" });
-});
-
-// ... (rest of your code, including login route)
-
 // --- Server Start ---
 app.listen(PORT, () => {
-    console.log(`🚀 POS Backend running on http://localhost:${PORT}`);
-    console.log(`Check the ${DATA_FILE} file for persistent data.`);
-    readData(); // Initial read to ensure data.json exists/is initialized
+    console.log(`🚀 POS Backend running locally on http://localhost:${PORT}`);
+    readData(); 
 });
