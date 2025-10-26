@@ -1,7 +1,12 @@
 // server/server.js
 
 const express = require('express');
+// In server/server.js (near the top with other requires)
 const cors = require('cors');
+
+// Below where you define 'app = express();'
+app.use(cors()); 
+// This should allow your GitHub Pages site to talk to Render
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
