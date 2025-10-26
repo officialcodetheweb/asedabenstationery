@@ -119,11 +119,14 @@ app.post('/api/sales', (req, res) => {
 });
 
 
-// 6. REPORTS: Get All Receipts (Admin)
-app.get('/api/receipts', (req, res) => {
-    const data = readData();
-    res.json(data.receipts);
+// In server/server.js, look for where you set up routes, and make sure this is there:
+
+app.get('/api', (req, res) => {
+    // Simple test route to confirm the backend is reachable
+    res.status(200).json({ message: "Backend is responding successfully!" });
 });
+
+// ... (rest of your code, including login route)
 
 // --- Server Start ---
 app.listen(PORT, () => {
